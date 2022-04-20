@@ -1,7 +1,7 @@
 /*
  * @Author: qf
  * @Date: 2022-04-16 21:37:33
- * @LastEditTime: 2022-04-13 10:11:33
+ * @LastEditTime: 2022-04-17 14:26:06
  * @LastEditors: qf
  * @Description:
  */
@@ -17,8 +17,6 @@ const modules = []
 modulesFiles.keys().forEach((item) => {
   modules.push(...modulesFiles(item).default)
 })
-
-console.log(modules)
 
 const routes = [
   {
