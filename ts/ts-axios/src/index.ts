@@ -1,11 +1,11 @@
 /*
  * @Author: qf
  * @Date: 2022-03-18 11:47:11
- * @LastEditTime: 2022-03-18 14:53:39
+ * @LastEditTime: 2022-04-20 17:16:21
  * @LastEditors: qf
  * @Description:
  */
-import { AxiosRequestConfig } from './types/index'
+import { AxiosRequestConfig, AxiosPromise } from './types/index'
 
 import xhr from './xhr'
 
@@ -13,9 +13,9 @@ import { buildURL } from './helps/url'
 import { transformRequest } from './helps/data'
 import { processHeaders } from './helps/headers'
 
-function axios(config: AxiosRequestConfig): void {
+function axios(config: AxiosRequestConfig): AxiosPromise {
   processConfig(config)
-  xhr(config)
+  return xhr(config)
 }
 
 function processConfig(config: AxiosRequestConfig): void {

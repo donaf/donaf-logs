@@ -1,8 +1,7 @@
-import { AxiosRequestConfig } from './index'
 /*
  * @Author: qf
  * @Date: 2022-03-18 11:49:26
- * @LastEditTime: 2022-03-18 15:02:18
+ * @LastEditTime: 2022-04-20 17:11:47
  * @LastEditors: qf
  * @Description:
  */
