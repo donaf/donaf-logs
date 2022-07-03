@@ -1,12 +1,40 @@
-/*
- * @Author: qf
- * @Date: 2022-04-21 17:52:22
- * @LastEditTime: 2022-05-11 10:03:30
- * @LastEditors: qf
- * @Description:
- */
 
-let hello: string = "hello";
+class Demo {
+  constructor(callbackfn: any, thisArg: any) {
+    let T, k
+    if (this == null) {
+      throw new TypeError('this is null or not defined');
+    }
+    var O = Object(this);
+    console.log(O)
+    var len = O.length >>> 0;
+    console.log(len)
+    if (typeof callbackfn !== 'function') {
+      throw new TypeError();
+    }
+    console.log(callbackfn)
+    console.log(arguments.length)
+    if (arguments.length > 1) {
+      T = thisArg
+      console.log('T', T)
+    }
+    k = 0
+    while (k < len) {
+      let kValue
+      if (k in O) {
+        kValue = O[k]
+      }
+      let testResult = callbackfn.call(T, kValue, k, O)
+      if (!testResult) {
+        return false
+      }
+      k++
+    }
+    return true
+  }
+}
+let p = new Demo(() => { }, 'a')
 
-let myContainer = <HTMLElement>document.querySelector(".app")
-myContainer.innerHTML = hello
+let arr = [{ id: 1, name: 'apple' }, { id: 2, name: 'pear' }]
+
+console.log(arr.every(item => item.name !== ''))

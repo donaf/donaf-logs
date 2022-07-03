@@ -1,11 +1,11 @@
 /*
  * @Author: qf
- * @Date: 2022-03-18 14:09:01
- * @LastEditTime: 2022-03-18 14:38:42
+ * @Date: 2022-06-13 17:35:53
+ * @LastEditTime: 2022-06-13 18:00:55
  * @LastEditors: qf
- * @Description:
+ * @Description:处理 url 相关的工具函数都放在该文件中
  */
-import { isDate, isPlainObject } from './util'
+import { isDate, isObject } from './util'
 
 function encode(val: string): string {
   return encodeURIComponent(val)
@@ -14,44 +14,58 @@ function encode(val: string): string {
     .replace(/%24/g, '$')
     .replace(/%2C/gi, ',')
     .replace(/%20/g, '+')
-    .replace(/%5B/g, '[')
+    .replace(/%5B/gi, '[')
     .replace(/%5D/gi, ']')
 }
 
-export function buildURL(url: string, params?: any): string {
+export function bulidURL(url: string, params?: any) {
   if (!params) {
     return url
   }
+
   const parts: string[] = []
+
   Object.keys(params).forEach(key => {
-    const val = params[key]
+    let val = params[key]
     if (val === null || typeof val === 'undefined') {
       return
     }
-    let values = []
+    let values: string[]
     if (Array.isArray(val)) {
       values = val
       key += '[]'
     } else {
       values = [val]
     }
+    console.log('key', key)
+    console.log('values', values)
     values.forEach(val => {
       if (isDate(val)) {
         val = val.toISOString()
-      } else if (isPlainObject(val)) {
+      } else if (isObject(val)) {
         val = JSON.stringify(val)
       }
       parts.push(`${encode(key)}=${encode(val)}`)
     })
   })
 
+  console.log('parts', parts)
+
   let serializedParams = parts.join('&')
+
   if (serializedParams) {
     const markIndex = url.indexOf('#')
+
     if (markIndex !== -1) {
       url = url.slice(0, markIndex)
+      console.log('markIndex', markIndex, url)
     }
+
+    console.log('serializedParams url', url)
+    console.log('serializedParams indexof url', url.indexOf('?') === -1 ? '?' : '&')
+
     url += (url.indexOf('?') === -1 ? '?' : '&') + serializedParams
   }
+  console.log('url', url)
   return url
 }

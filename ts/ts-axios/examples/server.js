@@ -1,7 +1,7 @@
 /*
  * @Author: qf
  * @Date: 2022-04-20 15:05:02
- * @LastEditTime: 2022-04-20 15:59:25
+ * @LastEditTime: 2022-07-03 07:28:08
  * @LastEditors: qf
  * @Description:
  */
@@ -66,7 +66,7 @@ registerMoreRouter()
 
 app.use(router)
 
-const port = process.env.PORT || 8080
+const port = process.env.PORT || 8888
 module.exports = app.listen(port, () => {
   console.log(`Server listening on http://localhost:${port}, Ctrl+C to stop`)
 })

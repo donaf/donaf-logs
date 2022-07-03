@@ -1,7 +1,7 @@
 /*
  * @Author: qf
  * @Date: 2022-04-20 15:04:56
- * @LastEditTime: 2022-04-20 15:27:07
+ * @LastEditTime: 2022-07-03 07:28:20
  * @LastEditors: qf
  * @Description:
  */
@@ -18,7 +18,7 @@ app.use(cookieParser())
 const router = express.Router()
 
 const cors = {
-  'Access-Control-Allow-Origin': 'http://localhost:8080',
+  'Access-Control-Allow-Origin': 'http://localhost:8888',
   'Access-Control-Allow-Credentials': true,
   'Access-Control-Allow-Methods': 'POST, GET, PUT, DELETE, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type'
