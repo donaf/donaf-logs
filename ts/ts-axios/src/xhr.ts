@@ -1,11 +1,13 @@
 /*
  * @Author: qf
  * @Date: 2022-06-13 17:26:22
- * @LastEditTime: 2022-07-03 16:40:33
+ * @LastEditTime: 2022-07-03 16:47:01
  * @LastEditors: qf
  * @Description:
  */
 import { AxiosRequestConfig, AxiosPromise, AxiosResponse } from './types/index'
+import { parseHeaders } from './helpers/headers'
+
 export default function xhr(config: AxiosRequestConfig): AxiosPromise {
   return new Promise(resolve => {
     const { data = null, url, method = 'get', headers, responseType } = config
@@ -27,7 +29,10 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
         return
       }
 
-      const responseHeaders = request.getAllResponseHeaders()
+      /**
+       * 通过 XMLHttpRequest 对象的 getAllResponseHeaders 方法获取到的值是如下一段字符串：
+       */
+      const responseHeaders = parseHeaders(request.getAllResponseHeaders())
       const responseData =
         responseType && responseType !== 'text' ? request.response : request.responseText
       const response: AxiosResponse = {
