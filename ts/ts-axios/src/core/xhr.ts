@@ -1,13 +1,13 @@
 /*
  * @Author: qf
  * @Date: 2022-06-13 17:26:22
- * @LastEditTime: 2022-07-03 17:16:27
+ * @LastEditTime: 2022-07-03 22:38:41
  * @LastEditors: qf
  * @Description:
  */
-import { AxiosRequestConfig, AxiosPromise, AxiosResponse } from './types/index'
-import { parseHeaders } from './helpers/headers'
-import { createError } from './helpers/error'
+import { AxiosRequestConfig, AxiosPromise, AxiosResponse } from '../types/index'
+import { parseHeaders } from '../helpers/headers'
+import { createError } from '../helpers/error'
 
 export default function xhr(config: AxiosRequestConfig): AxiosPromise {
   return new Promise((resolve, reject) => {

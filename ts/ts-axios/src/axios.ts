@@ -1,63 +1,33 @@
 /*
  * @Author: qf
- * @Date: 2022-05-27 10:24:31
- * @LastEditTime: 2022-07-03 22:14:34
+ * @Date: 2022-07-03 22:14:20
+ * @LastEditTime: 2022-07-03 22:50:19
  * @LastEditors: qf
  * @Description:
  */
-import { AxiosRequestConfig } from './types'
-import xhr from './xhr'
-import { bulidURL } from './helpers/url'
-import { transformRequest, transformResponse } from './helpers/data'
-import { processHeaders } from './helpers/headers'
-import { AxiosPromise, AxiosResponse } from './types/index'
-
-// 整个库的入口文件
-function axios(config: AxiosRequestConfig): AxiosPromise {
-  // 发送请求逻辑,模块化的编程思想，把这个功能拆分到一个单独的模块中。
-  processConfig(config)
-  return xhr(config).then(res => {
-    // 把响应的 data 字段从字符串解析成 JSON 对象结构
-    return transformResponseData(res)
-  })
-}
-
-function processConfig(config: AxiosRequestConfig): void {
-  config.url = transformUrl(config)
-  config.headers = transformHeaders(config)
-  config.data = transformRequestData(config)
-}
-
-function transformUrl(config: AxiosRequestConfig): string {
-  const { url, params } = config
-  return bulidURL(url, params)
-}
+import { AxiosInstance } from './types/index'
+import Axios from './core/Axios'
+import { extend } from './helpers/util'
 
 /**
- * 处理请求headers
- */
-function transformHeaders(config: AxiosRequestConfig) {
-  const { headers = {}, data } = config
-  return processHeaders(headers, data)
-}
-
-/**
- * 处理请求data
- * @param config
+ * 工厂函数
  * @returns
  */
-function transformRequestData(config: AxiosRequestConfig): any {
-  return transformRequest(config.data)
+function createInstance(): AxiosInstance {
+  // 实例化了Axios实例context
+  const context = new Axios()
+  // 创建instance指向Axios.prototype.request方法，并绑定上下文
+  const instance = Axios.prototype.request.bind(context)
+  // 通过extend方法把context中的原型方法和实例方法全部拷贝到instance上，这样就实现了一个混合对象
+  extend(instance, context)
+  // instance本身是一个函数，又拥有了Axios类的所有原型和实例属性，最终把这个instance返回
+  return instance as AxiosInstance
 }
 
 /**
- * 处理相应data
- * @param res 把响应的 data 字段从字符串解析成 JSON 对象结构
- * @returns
+ * 这样我们就可以通过createInstance工厂函数创建了axios
+ * 当直接调用axios方法，就相当于执行了Axios类的request方法发送请求
+ * 我们也可以调用axios.get、axios.post等方法
  */
-function transformResponseData(res: AxiosResponse): AxiosResponse {
-  res.data = transformResponse(res.data)
-  return res
-}
-
+const axios = createInstance()
 export default axios

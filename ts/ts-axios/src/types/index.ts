@@ -2,7 +2,7 @@
 import { AxiosResponse } from './index';
  * @Author: qf
  * @Date: 2022-06-13 17:20:48
- * @LastEditTime: 2022-07-03 22:12:27
+ * @LastEditTime: 2022-07-03 22:23:00
  * @LastEditors: qf
  * @Description:
  */
@@ -29,7 +29,7 @@ export type Method =
 
 // 从网络层面是可以收到服务端的响应
 export interface AxiosRequestConfig {
-  url: string
+  url?: string
   method?: Method
   data?: any // post、patch 等类型请求的数据
   params?: any // get、head 等类型请求的数据，拼接到 url 的 query string 中的
@@ -63,4 +63,26 @@ export interface AxiosError extends Error {
   request?: any
   response?: AxiosResponse
   isAxiosError: boolean
+}
+
+/**
+ * 混合对象axios本身是一个函数，再实现一个包括它属性方法的类
+ * 然后把这个类的原型属性和自身属性再拷贝到axios上
+ * 先给axios混合对象定义接口
+ * 首先，定义一个Axios类型接口，它描述了Axios类中的公共方法
+ * 接着定义了AxiosInstance接口继承Axios
+ * 它就是一个混合类型的接口
+ */
+export interface Axios {
+  request(config: AxiosRequestConfig): AxiosPromise
+  get(url: string, config?: AxiosRequestConfig): AxiosPromise
+  delete(url: string, config?: AxiosRequestConfig): AxiosPromise
+  head(url: string, config?: AxiosRequestConfig): AxiosPromise
+  options(url: string, config?: AxiosRequestConfig): AxiosPromise
+  post(url: string, data?: any, config?: AxiosRequestConfig): AxiosPromise
+  put(url: string, data?: any, config?: AxiosRequestConfig): AxiosPromise
+  patch(url: string, data?: any, config?: AxiosRequestConfig): AxiosPromise
+}
+export interface AxiosInstance extends Axios {
+  (config: AxiosRequestConfig): AxiosPromise
 }
