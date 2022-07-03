@@ -1,11 +1,11 @@
 /*
  * @Author: qf
  * @Date: 2022-06-13 17:35:53
- * @LastEditTime: 2022-06-13 18:00:55
+ * @LastEditTime: 2022-07-03 13:33:07
  * @LastEditors: qf
  * @Description:处理 url 相关的工具函数都放在该文件中
  */
-import { isDate, isObject } from './util'
+import { isDate, isPlainObject } from './util'
 
 function encode(val: string): string {
   return encodeURIComponent(val)
@@ -42,7 +42,7 @@ export function bulidURL(url: string, params?: any) {
     values.forEach(val => {
       if (isDate(val)) {
         val = val.toISOString()
-      } else if (isObject(val)) {
+      } else if (isPlainObject(val)) {
         val = JSON.stringify(val)
       }
       parts.push(`${encode(key)}=${encode(val)}`)

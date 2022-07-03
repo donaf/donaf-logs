@@ -83,6 +83,10 @@ import axios from '../../src/index'
 //   }
 // })
 
+/**
+ * 当我们请求的数据是普通对象并且没有配置 headers 的时候，
+ * 会自动为其添加 Content-Type:application/json;charset=utf-8；
+ */
 axios({
   method: 'post',
   url: '/base/post',
@@ -112,14 +116,15 @@ axios({
 //   data: arr
 // })
 
-// const paramsString = 'q=URLUtils.searchParams&topic=api'
-// const searchParams = new URLSearchParams(paramsString)
+// 当 data 是某些类型如 URLSearchParams 的时候，浏览器会自动为请求 header加上合适的 Content-Type
+const paramsString = 'q=URLUtils.searchParams&topic=api'
+const searchParams = new URLSearchParams(paramsString)
 
-// axios({
-//   method: 'post',
-//   url: '/base/post',
-//   data: searchParams
-// })
+axios({
+  method: 'post',
+  url: '/base/post',
+  data: searchParams
+})
 
 // axios({
 //   method: 'post',
