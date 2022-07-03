@@ -1,7 +1,8 @@
 /*
+import { AxiosResponse } from './index';
  * @Author: qf
  * @Date: 2022-06-13 17:20:48
- * @LastEditTime: 2022-07-03 16:40:43
+ * @LastEditTime: 2022-07-03 22:12:27
  * @LastEditors: qf
  * @Description:
  */
@@ -39,6 +40,7 @@ export interface AxiosRequestConfig {
    *
    */
   responseType?: XMLHttpRequestResponseType
+  timeout?: number // 超时实践，默认0（永不过时）
 }
 
 // 从代码层面来处理服务端响应
@@ -52,4 +54,13 @@ export interface AxiosResponse {
 }
 
 // 定义一个 AxiosPromise 接口，它继承于 Promise<AxiosResponse> 这个泛型接口
+
 export interface AxiosPromise extends Promise<AxiosResponse> {}
+
+export interface AxiosError extends Error {
+  config: AxiosRequestConfig
+  code?: string
+  request?: any
+  response?: AxiosResponse
+  isAxiosError: boolean
+}
