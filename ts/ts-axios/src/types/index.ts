@@ -1,7 +1,7 @@
 /*
  * @Author: qf
  * @Date: 2022-06-13 17:20:48
- * @LastEditTime: 2022-07-03 16:32:04
+ * @LastEditTime: 2022-07-03 16:40:43
  * @LastEditors: qf
  * @Description:
  */
@@ -43,7 +43,7 @@ export interface AxiosRequestConfig {
 
 // 从代码层面来处理服务端响应
 export interface AxiosResponse {
-  day: any
+  data: any
   status: number
   statusText: string
   headers: any

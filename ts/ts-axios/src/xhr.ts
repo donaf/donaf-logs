@@ -1,29 +1,56 @@
 /*
  * @Author: qf
  * @Date: 2022-06-13 17:26:22
- * @LastEditTime: 2022-07-03 16:33:48
+ * @LastEditTime: 2022-07-03 16:40:33
  * @LastEditors: qf
  * @Description:
  */
-import { AxiosRequestConfig } from './types/index'
-export default function xhr(config: AxiosRequestConfig): void {
-  const { data = null, url, method = 'get', headers } = config
+import { AxiosRequestConfig, AxiosPromise, AxiosResponse } from './types/index'
+export default function xhr(config: AxiosRequestConfig): AxiosPromise {
+  return new Promise(resolve => {
+    const { data = null, url, method = 'get', headers, responseType } = config
 
-  // 实例化了一个 XMLHttpRequest 对象
-  const request = new XMLHttpRequest()
+    // 实例化了一个 XMLHttpRequest 对象
+    const request = new XMLHttpRequest()
 
-  // 调用了它的 open 方法，传入了对应的一些参数
-  request.open(method.toUpperCase(), url, true)
-
-  Object.keys(headers).forEach(name => {
-    // 当我们传入的 data 为空的时候，请求 header 配置 Content-Type 是没有意义的，于是我们把它删除
-    if (data === null && name.toLowerCase() === 'content-type') {
-      delete headers[name]
-    } else {
-      request.setRequestHeader(name, headers[name])
+    if (responseType) {
+      request.responseType = responseType
     }
-  })
 
-  // 调用 send 方法发送请求
-  request.send(data)
+    // 调用了它的 open 方法，传入了对应的一些参数
+    request.open(method.toUpperCase(), url, true)
+
+    // 实现获取响应数据逻辑
+    // 添加 onreadystatechange 事件处理函数
+    request.onreadystatechange = function handleLoad() {
+      if (request.readyState !== 4) {
+        return
+      }
+
+      const responseHeaders = request.getAllResponseHeaders()
+      const responseData =
+        responseType && responseType !== 'text' ? request.response : request.responseText
+      const response: AxiosResponse = {
+        data: responseData,
+        status: request.status,
+        statusText: request.statusText,
+        headers: responseHeaders,
+        config,
+        request
+      }
+      resolve(response)
+    }
+
+    Object.keys(headers).forEach(name => {
+      // 当我们传入的 data 为空的时候，请求 header 配置 Content-Type 是没有意义的，于是我们把它删除
+      if (data === null && name.toLowerCase() === 'content-type') {
+        delete headers[name]
+      } else {
+        request.setRequestHeader(name, headers[name])
+      }
+    })
+
+    // 调用 send 方法发送请求
+    request.send(data)
+  })
 }

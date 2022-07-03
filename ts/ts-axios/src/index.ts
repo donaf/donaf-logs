@@ -1,7 +1,7 @@
 /*
  * @Author: qf
  * @Date: 2022-05-27 10:24:31
- * @LastEditTime: 2022-07-03 16:24:38
+ * @LastEditTime: 2022-07-03 16:40:10
  * @LastEditors: qf
  * @Description:
  */
@@ -10,12 +10,13 @@ import xhr from './xhr'
 import { bulidURL } from './helpers/url'
 import { transformRequest } from './helpers/data'
 import { processHeaders } from './helpers/headers'
+import { AxiosPromise } from './types/index'
 
 // 整个库的入口文件
-function axios(config: AxiosRequestConfig): void {
+function axios(config: AxiosRequestConfig): AxiosPromise {
   // 发送请求逻辑,模块化的编程思想，把这个功能拆分到一个单独的模块中。
   processConfig(config)
-  xhr(config)
+  return xhr(config)
 }
 
 function processConfig(config: AxiosRequestConfig): void {
