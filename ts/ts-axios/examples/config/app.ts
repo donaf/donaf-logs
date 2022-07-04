@@ -1,7 +1,7 @@
 /*
  * @Author: qf
  * @Date: 2022-04-20 15:59:16
- * @LastEditTime: 2022-07-04 17:38:43
+ * @LastEditTime: 2022-07-04 17:49:52
  * @LastEditors: qf
  * @Description:
  */
@@ -43,17 +43,17 @@ axios({
   console.log(res.data)
 })
 
-// const instance = axios.create({
-//   transformRequest: [(function(data) {
-//     return qs.stringify(data)
-//   }), ...(axios.defaults.transformRequest as AxiosTransformer[])],
-//   transformResponse: [...(axios.defaults.transformResponse as AxiosTransformer[]), function(data) {
-//     if (typeof data === 'object') {
-//       data.b = 2
-//     }
-//     return data
-//   }]
-// })
+const instance = axios.create({
+  transformRequest: [(function(data) {
+    return qs.stringify(data)
+  }), ...(axios.defaults.transformRequest as AxiosTransformer[])],
+  transformResponse: [...(axios.defaults.transformResponse as AxiosTransformer[]), function(data) {
+    if (typeof data === 'object') {
+      data.b = 2
+    }
+    return data
+  }]
+})
 
 // instance({
 //   url: '/config/post',

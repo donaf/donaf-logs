@@ -1,20 +1,21 @@
 /*
  * @Author: qf
  * @Date: 2022-07-03 22:14:20
- * @LastEditTime: 2022-07-04 15:44:11
+ * @LastEditTime: 2022-07-04 17:49:18
  * @LastEditors: qf
  * @Description:
  */
-import { AxiosInstance, AxiosRequestConfig } from './types/index'
+import { AxiosStatic, AxiosRequestConfig } from './types/index'
 import Axios from './core/Axios'
 import { extend } from './helpers/util'
 import defaults from './defaults'
+import mergeConfig from './core/mergeConfig'
 
 /**
  * 工厂函数
  * @returns
  */
-function createInstance(config: AxiosRequestConfig): AxiosInstance {
+function createInstance(config: AxiosRequestConfig): AxiosStatic {
   // 实例化了Axios实例context
   const context = new Axios(config)
   // 创建instance指向Axios.prototype.request方法，并绑定上下文
@@ -22,7 +23,7 @@ function createInstance(config: AxiosRequestConfig): AxiosInstance {
   // 通过extend方法把context中的原型方法和实例方法全部拷贝到instance上，这样就实现了一个混合对象
   extend(instance, context)
   // instance本身是一个函数，又拥有了Axios类的所有原型和实例属性，最终把这个instance返回
-  return instance as AxiosInstance
+  return instance as AxiosStatic
 }
 
 /**
@@ -31,4 +32,9 @@ function createInstance(config: AxiosRequestConfig): AxiosInstance {
  * 我们也可以调用axios.get、axios.post等方法
  */
 const axios = createInstance(defaults)
+
+axios.create = function create(config) {
+  return createInstance(mergeConfig(defaults, config))
+}
+
 export default axios

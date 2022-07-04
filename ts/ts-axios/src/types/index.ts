@@ -1,7 +1,7 @@
 /*
  * @Author: qf
  * @Date: 2022-06-13 17:20:48
- * @LastEditTime: 2022-07-04 17:45:03
+ * @LastEditTime: 2022-07-04 17:46:14
  * @LastEditors: qf
  * @Description:
  */
@@ -120,4 +120,9 @@ export interface ResolvedFn<T> {
 
 export interface RejectedFn {
   (error: any): any
+}
+
+// 静态方法扩展
+export interface AxiosStatic extends AxiosInstance {
+  create(config?: AxiosRequestConfig): AxiosInstance
 }
