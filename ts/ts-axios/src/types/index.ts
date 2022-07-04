@@ -1,7 +1,7 @@
 /*
  * @Author: qf
  * @Date: 2022-06-13 17:20:48
- * @LastEditTime: 2022-07-04 14:35:06
+ * @LastEditTime: 2022-07-04 15:30:46
  * @LastEditors: qf
  * @Description:
  */
@@ -36,7 +36,6 @@ export interface AxiosRequestConfig {
   /**
    * responseType 的类型是一个 XMLHttpRequestResponseType 类型
    * 它的定义是 "" | "arraybuffer" | "blob" | "document" | "json" | "text" 字符串字面量类型
-   *
    */
   responseType?: XMLHttpRequestResponseType
   timeout?: number // 超时实践，默认0（永不过时）
@@ -73,6 +72,10 @@ export interface AxiosError extends Error {
  * 它就是一个混合类型的接口
  */
 export interface Axios {
+  interceptors: {
+    request: AxiosInterceptorManager<AxiosRequestConfig>
+    response: AxiosInterceptorManager<AxiosResponse>
+  }
   request<T = any>(config: AxiosRequestConfig): AxiosPromise<T>
   get<T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>
   delete<T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>
@@ -86,4 +89,21 @@ export interface AxiosInstance extends Axios {
   <T = any>(config: AxiosRequestConfig): AxiosPromise<T>
   // 重载
   <T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>
+}
+
+/**
+ * 拦截器管理类对外接口
+ */
+export interface AxiosInterceptorManager<T> {
+  use(resolved: ResolvedFn<T>, rejected?: RejectedFn): number
+
+  eject(id: number): void
+}
+
+export interface ResolvedFn<T> {
+  (val: T): T | Promise<T>
+}
+
+export interface RejectedFn {
+  (error: any): any
 }
