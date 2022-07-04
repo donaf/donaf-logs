@@ -1,10 +1,7 @@
-import { transformRequest, transformResponse } from '../helpers/data'
-import Axios from './../core/Axios'
-import { extend } from '../helpers/util'
 /*
  * @Author: qf
  * @Date: 2022-06-13 17:20:48
- * @LastEditTime: 2022-07-04 17:43:53
+ * @LastEditTime: 2022-07-04 17:45:03
  * @LastEditors: qf
  * @Description:
  */
