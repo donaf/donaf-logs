@@ -1,7 +1,10 @@
+import { transformRequest, transformResponse } from '../helpers/data'
+import Axios from './../core/Axios'
+import { extend } from '../helpers/util'
 /*
  * @Author: qf
  * @Date: 2022-06-13 17:20:48
- * @LastEditTime: 2022-07-04 15:30:46
+ * @LastEditTime: 2022-07-04 17:43:53
  * @LastEditors: qf
  * @Description:
  */
@@ -39,6 +42,19 @@ export interface AxiosRequestConfig {
    */
   responseType?: XMLHttpRequestResponseType
   timeout?: number // 超时实践，默认0（永不过时）
+  /**
+   * 将请求数据发送到服务器之前对其进行修改
+   * 这只适用于请求方法 put、post 和 patch
+   * 如果值是数组，则数组中的最后一个函数必须返回一个字符串或FormData、URLSearchParams、Blob等类型作为xhr.send方法的参数
+   */
+  transformRequest?: AxiosTransformer | AxiosTransformer[]
+  // 把响应数据传递给 then 或者 catch 之前对它们进行修改
+  transformResponse?: AxiosTransformer | AxiosTransformer[]
+  [propName: string]: any
+}
+
+export interface AxiosTransformer {
+  (data: any, headers: any): any
 }
 
 // 从代码层面来处理服务端响应
@@ -72,6 +88,7 @@ export interface AxiosError extends Error {
  * 它就是一个混合类型的接口
  */
 export interface Axios {
+  defaults: AxiosRequestConfig
   interceptors: {
     request: AxiosInterceptorManager<AxiosRequestConfig>
     response: AxiosInterceptorManager<AxiosResponse>

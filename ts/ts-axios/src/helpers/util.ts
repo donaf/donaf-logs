@@ -1,7 +1,7 @@
 /*
  * @Author: qf
  * @Date: 2022-06-13 17:36:15
- * @LastEditTime: 2022-07-03 22:51:15
+ * @LastEditTime: 2022-07-04 16:19:32
  * @LastEditors: qf
  * @Description:
  */
@@ -32,4 +32,38 @@ export function extend<T, U>(to: T, from: U): T & U {
     ;(to as T & U)[key] = from[key] as any
   }
   return to as T & U
+}
+
+const objs = {
+  id: 'a',
+  objs: {
+    id: 'b'
+  }
+}
+
+/**
+ * 深拷贝
+ * @param objs
+ * @returns
+ */
+export function deepMerge(...objs: any[]): any {
+  const result = Object.create(null)
+
+  objs.forEach(obj => {
+    if (obj) {
+      Object.keys(obj).forEach(key => {
+        const val = obj[key]
+        if (isPlainObject(val)) {
+          if (isPlainObject(result[key])) {
+            result[key] = deepMerge(result[key], val)
+          } else {
+            result[key] = deepMerge({}, val)
+          }
+        } else {
+          result[key] = val
+        }
+      })
+    }
+  })
+  return result
 }

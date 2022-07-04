@@ -1,12 +1,12 @@
 /*
  * @Author: qf
  * @Date: 2022-07-03 13:38:47
- * @LastEditTime: 2022-07-03 16:46:09
+ * @LastEditTime: 2022-07-04 16:24:50
  * @LastEditors: qf
  * @Description:
  */
-import { parse } from 'path'
-import { isPlainObject } from './util'
+import { isPlainObject, deepMerge } from './util'
+import { Method } from '../types/index'
 
 function normalizeHeaderName(headers: any, normalizedName: string): void {
   if (!headers) {
@@ -57,4 +57,22 @@ export function parseHeaders(headers: string): any {
     parsed[key] = val
   })
   return parsed
+}
+
+/**
+ * 把 common、post 的属性拷贝到 headers 这一级，然后再把 common、post 这些属性删掉
+ * @param headers
+ * @param method
+ * @returns
+ */
+export function flattenHeaders(headers: any, method: Method): any {
+  if (!headers) {
+    return
+  }
+  headers = deepMerge(headers.common || {}, headers[method] || {}, headers)
+  const methodsToDelete = ['delete', 'get', 'head', 'options', 'post', 'put', 'patch', 'common']
+  methodsToDelete.forEach(method => {
+    delete headers[method]
+  })
+  return headers
 }
