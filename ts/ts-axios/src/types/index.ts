@@ -2,7 +2,7 @@
 import { AxiosResponse } from './index';
  * @Author: qf
  * @Date: 2022-06-13 17:20:48
- * @LastEditTime: 2022-07-03 22:23:00
+ * @LastEditTime: 2022-07-03 23:03:46
  * @LastEditors: qf
  * @Description:
  */
@@ -85,4 +85,6 @@ export interface Axios {
 }
 export interface AxiosInstance extends Axios {
   (config: AxiosRequestConfig): AxiosPromise
+  // 重载
+  (url: string, config?: AxiosRequestConfig): AxiosPromise
 }

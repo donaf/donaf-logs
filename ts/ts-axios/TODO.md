@@ -1,7 +1,7 @@
 <!--
  * @Author: qf
  * @Date: 2022-07-03 13:21:37
- * @LastEditTime: 2022-07-03 17:18:49
+ * @LastEditTime: 2022-07-03 23:08:54
  * @LastEditors: qf
  * @Description:
 -->
@@ -11,3 +11,5 @@
 ## ts-axios异常情况处理
 ### 错误处理
 > 此处需看视频教程加深理解
+## ts-axios接口扩展
+### axios函数重载

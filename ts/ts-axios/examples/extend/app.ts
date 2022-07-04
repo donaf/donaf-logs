@@ -1,7 +1,7 @@
 /*
  * @Author: qf
  * @Date: 2022-04-20 15:59:16
- * @LastEditTime: 2022-07-03 23:01:28
+ * @LastEditTime: 2022-07-03 23:07:10
  * @LastEditors: qf
  * @Description:
  */
@@ -37,20 +37,20 @@ axios.put('/extend/put', { msg: 'put' })
 
 axios.patch('/extend/patch', { msg: 'patch' })
 
-// axios({
-//   url: '/extend/post',
-//   method: 'post',
-//   data: {
-//     msg: 'hi'
-//   }
-// })
+axios({
+  url: '/extend/post',
+  method: 'post',
+  data: {
+    msg: 'hi'
+  }
+})
 
-// axios('/extend/post', {
-//   method: 'post',
-//   data: {
-//     msg: 'hello'
-//   }
-// })
+axios('/extend/post', {
+  method: 'post',
+  data: {
+    msg: 'hello'
+  }
+})
 
 // interface ResponseData<T = any> {
 //   code: number

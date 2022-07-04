@@ -1,7 +1,7 @@
 /*
  * @Author: qf
  * @Date: 2022-07-03 22:24:59
- * @LastEditTime: 2022-07-03 22:59:16
+ * @LastEditTime: 2022-07-03 23:05:46
  * @LastEditors: qf
  * @Description:
  */
@@ -9,7 +9,20 @@ import { AxiosRequestConfig, AxiosPromise, Method } from '../types'
 import dispatchRequest from './dispatchRequest'
 
 export default class Axios {
-  request(config: AxiosRequestConfig): AxiosPromise {
+  // 我们虽然修改了 request 的实现，支持了 2 种参数，
+  // 但是我们对外提供的 request 接口仍然不变，
+  // 可以理解为这仅仅是内部的实现的修改，与对外接口不必一致，
+  // 只要保留实现兼容接口即可。
+  request(url: any, config?: any): AxiosPromise {
+    if (typeof url === 'string') {
+      if (!config) {
+        config = {}
+      }
+      config.url = url
+    } else {
+      // 如果 url 不是字符串类型，则说明我们传入的就是单个参数，且 url 就是 config
+      config = url
+    }
     return dispatchRequest(config)
   }
 
