@@ -1,11 +1,11 @@
 /*
  * @Author: qf
  * @Date: 2022-07-03 22:26:05
- * @LastEditTime: 2022-07-05 10:58:59
+ * @LastEditTime: 2022-07-05 17:27:56
  * @LastEditors: qf
  * @Description:
  */
-import { AxiosPromise, AxiosRequestConfig, AxiosResponse } from '../types'
+import { AxiosPromise, AxiosRequestConfig, AxiosResponse } from '../types/index'
 import xhr from './xhr'
 import { buildURL } from '../helpers/url'
 import { flattenHeaders } from '../helpers/headers'

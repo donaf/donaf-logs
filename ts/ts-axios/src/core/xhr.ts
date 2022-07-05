@@ -1,10 +1,3 @@
-/*
- * @Author: qf
- * @Date: 2022-06-13 17:26:22
- * @LastEditTime: 2022-07-05 11:45:21
- * @LastEditors: qf
- * @Description:
- */
 import { AxiosRequestConfig, AxiosPromise, AxiosResponse } from '../types/index'
 import { parseHeaders } from '../helpers/headers'
 import { createError } from '../helpers/error'
@@ -26,7 +19,8 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
       xsrfCookieName,
       xsrfHeaderName,
       onDownloadProgress,
-      onUploadProgress
+      onUploadProgress,
+      auth
     } = config
 
     // 创建一个 request 实例
@@ -97,7 +91,9 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
       }
 
       request.ontimeout = function handleTimeout() {
-        reject(createError(`Timeout of ${timeout} ms exceeded`, config, 'ECONNABORTED', request))
+        reject(
+          createError(`Timeout of ${config.timeout} ms exceeded`, config, 'ECONNABORTED', request)
+        )
       }
 
       if (onDownloadProgress) {
@@ -118,23 +114,28 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
       // 携带请求域下的 cookie
       if ((withCredentials || isURLSameOrigin(url!)) && xsrfCookieName) {
         const xsrfValue = cookie.read(xsrfCookieName)
-        if (xsrfValue) {
-          headers[xsrfHeaderName!] = xsrfValue
+        if (xsrfValue && xsrfHeaderName) {
+          headers[xsrfHeaderName] = xsrfValue
         }
       }
 
-      Object.keys(headers).forEach(name => {
-        // 当我们传入的 data 为空的时候，请求 header 配置 Content-Type 是没有意义的，于是我们把它删除
-        if (data === null && name.toLowerCase() === 'content-type') {
-          delete headers[name]
-        } else {
-          request.setRequestHeader(name, headers[name])
-        }
-      })
+      if (auth) {
+        headers['Authorization'] = 'Basic ' + btoa(auth.username + ':' + auth.password)
+      }
+
+      if (headers) {
+        Object.keys(headers).forEach(name => {
+          // 当我们传入的 data 为空的时候，请求 header 配置 Content-Type 是没有意义的，于是我们把它删除
+          if (data === null && name.toLowerCase() === 'content-type') {
+            delete headers[name]
+          } else {
+            request.setRequestHeader(name, headers[name])
+          }
+        })
+      }
     }
 
-    function processCancel() {
-      // 取消请求
+    function processCancel(): void {
       if (cancelToken) {
         cancelToken.promise.then(reason => {
           request.abort()

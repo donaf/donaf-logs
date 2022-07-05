@@ -1,7 +1,7 @@
 /*
  * @Author: qf
  * @Date: 2022-07-03 13:38:47
- * @LastEditTime: 2022-07-04 16:24:50
+ * @LastEditTime: 2022-07-05 16:20:35
  * @LastEditors: qf
  * @Description:
  */
@@ -67,12 +67,15 @@ export function parseHeaders(headers: string): any {
  */
 export function flattenHeaders(headers: any, method: Method): any {
   if (!headers) {
-    return
+    return headers
   }
-  headers = deepMerge(headers.common || {}, headers[method] || {}, headers)
+  headers = deepMerge(headers.common, headers[method], headers)
+
   const methodsToDelete = ['delete', 'get', 'head', 'options', 'post', 'put', 'patch', 'common']
+
   methodsToDelete.forEach(method => {
     delete headers[method]
   })
+
   return headers
 }

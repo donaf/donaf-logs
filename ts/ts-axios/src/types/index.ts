@@ -1,7 +1,7 @@
 /*
  * @Author: qf
  * @Date: 2022-06-13 17:20:48
- * @LastEditTime: 2022-07-05 11:30:07
+ * @LastEditTime: 2022-07-05 16:54:31
  * @LastEditors: qf
  * @Description:
  */
@@ -53,11 +53,13 @@ export interface AxiosRequestConfig {
   xsrfHeaderName?: string // 请求headers中的token对应的header名称
   onDownloadProgress?: (e: ProgressEvent) => void // 下载进度
   onUploadProgress?: (e: ProgressEvent) => void // 上传进度
+  auth?: AxiosBasicCredentials // 自动往 HTTP 的 请求 header 中添加 Authorization 属性，值为 Basic 加密串
+
   [propName: string]: any
 }
 
 export interface AxiosTransformer {
-  (data: any, headers: any): any
+  (data: any, headers?: any): any
 }
 
 // 从代码层面来处理服务端响应
@@ -173,6 +175,7 @@ export interface CancelTokenSource {
 
 export interface CancelTokenStatic {
   new (executor: CancelExecutor): CancelToken
+
   source(): CancelTokenSource
 }
 
@@ -187,4 +190,9 @@ export interface Cancel {
 // 类类型的接口定义
 export interface CancelStatic {
   new (message?: string): Cancel
+}
+
+export interface AxiosBasicCredentials {
+  username: string
+  password: string
 }

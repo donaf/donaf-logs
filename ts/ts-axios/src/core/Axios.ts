@@ -1,14 +1,14 @@
 /*
  * @Author: qf
  * @Date: 2022-07-03 22:24:59
- * @LastEditTime: 2022-07-04 16:26:15
+ * @LastEditTime: 2022-07-05 17:03:42
  * @LastEditors: qf
  * @Description:
  */
 import {
   AxiosRequestConfig,
-  AxiosResponse,
   AxiosPromise,
+  AxiosResponse,
   Method,
   ResolvedFn,
   RejectedFn
@@ -55,6 +55,8 @@ export default class Axios {
       // 如果 url 不是字符串类型，则说明我们传入的就是单个参数，且 url 就是 config
       config = url
     }
+
+    // 合并配置
     config = mergeConfig(this.defaults, config)
 
     // 构造一个 PromiseChain 类型的数组 chain
@@ -70,18 +72,22 @@ export default class Axios {
     this.interceptors.request.forEach(interceptor => {
       chain.unshift(interceptor)
     })
+
     // 遍历响应拦截器插入到 chain 后面
     this.interceptors.response.forEach(interceptor => {
       chain.push(interceptor)
     })
+
     // 定义一个已经 resolve 的 promise，循环这个 chain，拿到每个拦截器对象
     // 把它们的 resolved 函数和 rejected 函数添加到 promise.then 的参数中
     // 这样就相当于通过 Promise 的链式调用方式，实现了拦截器一层层的链式调用的效果。
     let promise = Promise.resolve(config)
+
     while (chain.length) {
       const { resolved, rejected } = chain.shift()!
       promise = promise.then(resolved, rejected)
     }
+
     return promise
   }
 
@@ -103,16 +109,20 @@ export default class Axios {
     return this._requestMethodWithoutData('options', url, config)
   }
   post(url: string, data?: any, config?: AxiosRequestConfig): AxiosPromise {
-    return this._requestMethodWithData('post', url, config)
+    return this._requestMethodWithData('post', url, data, config)
   }
   put(url: string, data?: any, config?: AxiosRequestConfig): AxiosPromise {
-    return this._requestMethodWithData('put', url, config)
+    return this._requestMethodWithData('put', url, data, config)
   }
   patch(url: string, data?: any, config?: AxiosRequestConfig): AxiosPromise {
-    return this._requestMethodWithData('patch', url, config)
+    return this._requestMethodWithData('patch', url, data, config)
   }
 
-  _requestMethodWithoutData(method: Method, url: string, config?: AxiosRequestConfig) {
+  _requestMethodWithoutData(
+    method: Method,
+    url: string,
+    config?: AxiosRequestConfig
+  ): AxiosPromise {
     return this.request(
       Object.assign(config || {}, {
         method,
@@ -120,7 +130,13 @@ export default class Axios {
       })
     )
   }
-  _requestMethodWithData(method: Method, url: string, data?: any, config?: AxiosRequestConfig) {
+
+  _requestMethodWithData(
+    method: Method,
+    url: string,
+    data?: any,
+    config?: AxiosRequestConfig
+  ): AxiosPromise {
     return this.request(
       Object.assign(config || {}, {
         method,

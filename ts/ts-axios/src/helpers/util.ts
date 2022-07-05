@@ -1,7 +1,7 @@
 /*
  * @Author: qf
  * @Date: 2022-06-13 17:36:15
- * @LastEditTime: 2022-07-05 11:33:33
+ * @LastEditTime: 2022-07-05 16:08:47
  * @LastEditors: qf
  * @Description:
  */
@@ -34,13 +34,6 @@ export function extend<T, U>(to: T, from: U): T & U {
   return to as T & U
 }
 
-const objs = {
-  id: 'a',
-  objs: {
-    id: 'b'
-  }
-}
-
 /**
  * 深拷贝
  * @param objs
@@ -57,7 +50,7 @@ export function deepMerge(...objs: any[]): any {
           if (isPlainObject(result[key])) {
             result[key] = deepMerge(result[key], val)
           } else {
-            result[key] = deepMerge({}, val)
+            result[key] = deepMerge(val)
           }
         } else {
           result[key] = val
@@ -65,6 +58,7 @@ export function deepMerge(...objs: any[]): any {
       })
     }
   })
+
   return result
 }
 

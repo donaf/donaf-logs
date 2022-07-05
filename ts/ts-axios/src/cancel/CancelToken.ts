@@ -1,11 +1,11 @@
 /*
  * @Author: qf
  * @Date: 2022-07-04 17:51:49
- * @LastEditTime: 2022-07-05 10:56:04
+ * @LastEditTime: 2022-07-05 17:16:00
  * @LastEditors: qf
  * @Description:
  */
-import { CancelExecutor, Canceler, CancelTokenSource } from '../types'
+import { CancelExecutor, Canceler, CancelTokenSource } from '../types/index'
 
 import Cancel from './Cancel'
 

@@ -1,12 +1,5 @@
-/*
- * @Author: qf
- * @Date: 2022-07-04 15:45:52
- * @LastEditTime: 2022-07-04 16:05:09
- * @LastEditors: qf
- * @Description: 合并方法
- */
 import { AxiosRequestConfig } from '../types/index'
-import { isPlainObject } from '../helpers/util'
+import { deepMerge, isPlainObject } from '../helpers/util'
 
 const strats = Object.create(null)
 
@@ -33,11 +26,6 @@ function fromVal2Strat(val1: any, val2: any): any {
   }
 }
 
-const stratKeysFromVal2 = ['url', 'params', 'data']
-stratKeysFromVal2.forEach(key => {
-  strats[key] = fromVal2Strat
-})
-
 /**
  * 复杂对象合并策略
  * @param val1
@@ -46,8 +34,26 @@ stratKeysFromVal2.forEach(key => {
 function deepMergeStrat(val1: any, val2: any): any {
   if (isPlainObject(val2)) {
     return deepMerge(val1, val2)
+  } else if (typeof val2 !== 'undefined') {
+    return val2
+  } else if (isPlainObject(val1)) {
+    return deepMerge(val1)
+  } else if (typeof val1 !== 'undefined') {
+    return val1
   }
 }
+
+const stratKeysFromVal2 = ['url', 'params', 'data']
+
+stratKeysFromVal2.forEach(key => {
+  strats[key] = fromVal2Strat
+})
+
+const stratKeysDeepMerge = ['headers']
+
+stratKeysDeepMerge.forEach(key => {
+  strats[key] = deepMergeStrat
+})
 
 /**
  * 合并方法

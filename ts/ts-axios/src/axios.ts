@@ -1,7 +1,7 @@
 /*
  * @Author: qf
  * @Date: 2022-07-03 22:14:20
- * @LastEditTime: 2022-07-05 10:59:40
+ * @LastEditTime: 2022-07-05 15:54:17
  * @LastEditors: qf
  * @Description:
  */
@@ -22,8 +22,10 @@ function createInstance(config: AxiosRequestConfig): AxiosStatic {
   const context = new Axios(config)
   // 创建instance指向Axios.prototype.request方法，并绑定上下文
   const instance = Axios.prototype.request.bind(context)
+
   // 通过extend方法把context中的原型方法和实例方法全部拷贝到instance上，这样就实现了一个混合对象
   extend(instance, context)
+
   // instance本身是一个函数，又拥有了Axios类的所有原型和实例属性，最终把这个instance返回
   return instance as AxiosStatic
 }
