@@ -1,9 +1,9 @@
 /*
  * @Author: qf
  * @Date: 2022-07-04 15:39:36
- * @LastEditTime: 2022-07-04 16:40:09
+ * @LastEditTime: 2022-07-05 10:58:44
  * @LastEditors: qf
- * @Description: 默认配置
+ * @Description:
  */
 import { AxiosRequestConfig } from './types'
 import { processHeaders } from './helpers/headers'

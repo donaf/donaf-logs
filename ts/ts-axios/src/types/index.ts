@@ -1,7 +1,7 @@
 /*
  * @Author: qf
  * @Date: 2022-06-13 17:20:48
- * @LastEditTime: 2022-07-04 17:46:14
+ * @LastEditTime: 2022-07-05 10:59:43
  * @LastEditors: qf
  * @Description:
  */
@@ -47,6 +47,7 @@ export interface AxiosRequestConfig {
   transformRequest?: AxiosTransformer | AxiosTransformer[]
   // 把响应数据传递给 then 或者 catch 之前对它们进行修改
   transformResponse?: AxiosTransformer | AxiosTransformer[]
+  cancelToken?: CancelToken
   [propName: string]: any
 }
 
@@ -65,7 +66,6 @@ export interface AxiosResponse<T = any> {
 }
 
 // 定义一个 AxiosPromise 接口，它继承于 Promise<AxiosResponse> 这个泛型接口
-
 export interface AxiosPromise<T = any> extends Promise<AxiosResponse<T>> {}
 
 export interface AxiosError extends Error {
@@ -105,6 +105,14 @@ export interface AxiosInstance extends Axios {
   <T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>
 }
 
+export interface AxiosStatic extends AxiosInstance {
+  create(config?: AxiosRequestConfig): AxiosInstance
+
+  CancelToken: CancelTokenStatic
+  Cancel: CancelStatic
+  isCancel: (value: any) => boolean
+}
+
 /**
  * 拦截器管理类对外接口
  */
@@ -125,4 +133,53 @@ export interface RejectedFn {
 // 静态方法扩展
 export interface AxiosStatic extends AxiosInstance {
   create(config?: AxiosRequestConfig): AxiosInstance
+}
+
+/**
+ * 实例类型的接口定义
+ */
+export interface CancelToken {
+  promise: Promise<Cancel>
+  reason?: Cancel
+
+  throwIfRequested(): void
+}
+/**
+ * 取消方法的接口定义
+ */
+export interface Canceler {
+  (message?: string): void
+}
+
+/**
+ * CancelToken 类构造函数参数的接口定义
+ */
+export interface CancelExecutor {
+  (cancel: Canceler): void
+}
+
+/**
+ * CancelToken 扩展静态接口
+ */
+export interface CancelTokenSource {
+  token: CancelToken
+  cancel: Canceler
+}
+
+export interface CancelTokenStatic {
+  new (executor: CancelExecutor): CancelToken
+  source(): CancelTokenSource
+}
+
+/**
+ * Cancel 类实现及 axios 的扩展
+ */
+//  实例类型的接口定义
+export interface Cancel {
+  message?: string
+}
+
+// 类类型的接口定义
+export interface CancelStatic {
+  new (message?: string): Cancel
 }

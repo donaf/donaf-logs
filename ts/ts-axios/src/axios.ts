@@ -1,7 +1,7 @@
 /*
  * @Author: qf
  * @Date: 2022-07-03 22:14:20
- * @LastEditTime: 2022-07-04 17:49:18
+ * @LastEditTime: 2022-07-05 10:59:40
  * @LastEditors: qf
  * @Description:
  */
@@ -10,6 +10,8 @@ import Axios from './core/Axios'
 import { extend } from './helpers/util'
 import defaults from './defaults'
 import mergeConfig from './core/mergeConfig'
+import CancelToken from './cancel/CancelToken'
+import Cancel, { isCancel } from './cancel/Cancel'
 
 /**
  * 工厂函数
@@ -31,10 +33,15 @@ function createInstance(config: AxiosRequestConfig): AxiosStatic {
  * 当直接调用axios方法，就相当于执行了Axios类的request方法发送请求
  * 我们也可以调用axios.get、axios.post等方法
  */
+
 const axios = createInstance(defaults)
 
 axios.create = function create(config) {
   return createInstance(mergeConfig(defaults, config))
 }
+
+axios.CancelToken = CancelToken
+axios.Cancel = Cancel
+axios.isCancel = isCancel
 
 export default axios

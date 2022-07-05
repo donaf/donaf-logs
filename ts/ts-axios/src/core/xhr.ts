@@ -1,7 +1,7 @@
 /*
  * @Author: qf
  * @Date: 2022-06-13 17:26:22
- * @LastEditTime: 2022-07-03 22:38:41
+ * @LastEditTime: 2022-07-05 10:37:04
  * @LastEditors: qf
  * @Description:
  */
@@ -11,7 +11,7 @@ import { createError } from '../helpers/error'
 
 export default function xhr(config: AxiosRequestConfig): AxiosPromise {
   return new Promise((resolve, reject) => {
-    const { data = null, url, method = 'get', headers, responseType, timeout } = config
+    const { data = null, url, method = 'get', headers, responseType, timeout, cancelToken } = config
 
     // 实例化了一个 XMLHttpRequest 对象
     const request = new XMLHttpRequest()
@@ -21,7 +21,7 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
     }
 
     // 调用了它的 open 方法，传入了对应的一些参数
-    request.open(method.toUpperCase(), url, true)
+    request.open(method.toUpperCase(), url!, true)
 
     // 实现获取响应数据逻辑
     // 添加 onreadystatechange 事件处理函数
@@ -73,6 +73,14 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
         request.setRequestHeader(name, headers[name])
       }
     })
+
+    // 取消请求
+    if (cancelToken) {
+      cancelToken.promise.then(reason => {
+        request.abort()
+        reject(reason)
+      })
+    }
 
     // 调用 send 方法发送请求
     request.send(data)
