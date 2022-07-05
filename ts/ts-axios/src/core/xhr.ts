@@ -1,7 +1,7 @@
 /*
  * @Author: qf
  * @Date: 2022-06-13 17:26:22
- * @LastEditTime: 2022-07-05 10:37:04
+ * @LastEditTime: 2022-07-05 11:10:38
  * @LastEditors: qf
  * @Description:
  */
@@ -11,7 +11,16 @@ import { createError } from '../helpers/error'
 
 export default function xhr(config: AxiosRequestConfig): AxiosPromise {
   return new Promise((resolve, reject) => {
-    const { data = null, url, method = 'get', headers, responseType, timeout, cancelToken } = config
+    const {
+      data = null,
+      url,
+      method = 'get',
+      headers,
+      responseType,
+      timeout,
+      cancelToken,
+      withCredentials
+    } = config
 
     // 实例化了一个 XMLHttpRequest 对象
     const request = new XMLHttpRequest()
@@ -80,6 +89,11 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
         request.abort()
         reject(reason)
       })
+    }
+
+    // 携带请求域下的 cookie
+    if (withCredentials) {
+      request.withCredentials = true
     }
 
     // 调用 send 方法发送请求

@@ -1,7 +1,7 @@
 /*
  * @Author: qf
  * @Date: 2022-06-13 17:20:48
- * @LastEditTime: 2022-07-05 10:59:43
+ * @LastEditTime: 2022-07-05 11:05:07
  * @LastEditors: qf
  * @Description:
  */
@@ -48,6 +48,7 @@ export interface AxiosRequestConfig {
   // 把响应数据传递给 then 或者 catch 之前对它们进行修改
   transformResponse?: AxiosTransformer | AxiosTransformer[]
   cancelToken?: CancelToken
+  withCredentials?: boolean // 是否携带请求域下的 cookie
   [propName: string]: any
 }
 
