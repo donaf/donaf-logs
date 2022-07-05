@@ -1,7 +1,7 @@
 /*
  * @Author: qf
  * @Date: 2022-06-13 17:20:48
- * @LastEditTime: 2022-07-05 11:13:43
+ * @LastEditTime: 2022-07-05 11:30:07
  * @LastEditors: qf
  * @Description:
  */
@@ -51,6 +51,8 @@ export interface AxiosRequestConfig {
   withCredentials?: boolean // 是否携带请求域下的 cookie
   xsrfCookieName?: string // 存储 token 的 cookie 名称
   xsrfHeaderName?: string // 请求headers中的token对应的header名称
+  onDownloadProgress?: (e: ProgressEvent) => void // 下载进度
+  onUploadProgress?: (e: ProgressEvent) => void // 上传进度
   [propName: string]: any
 }
 

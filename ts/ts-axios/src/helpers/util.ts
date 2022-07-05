@@ -1,7 +1,7 @@
 /*
  * @Author: qf
  * @Date: 2022-06-13 17:36:15
- * @LastEditTime: 2022-07-04 16:19:32
+ * @LastEditTime: 2022-07-05 11:33:33
  * @LastEditors: qf
  * @Description:
  */
@@ -66,4 +66,13 @@ export function deepMerge(...objs: any[]): any {
     }
   })
   return result
+}
+
+/**
+ * 是否FormData
+ * @param val
+ * @returns
+ */
+export function isFormData(val: any): boolean {
+  return typeof val !== 'undefined' && val instanceof FormData
 }
