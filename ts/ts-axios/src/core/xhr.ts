@@ -1,13 +1,15 @@
 /*
  * @Author: qf
  * @Date: 2022-06-13 17:26:22
- * @LastEditTime: 2022-07-05 11:10:38
+ * @LastEditTime: 2022-07-05 11:26:45
  * @LastEditors: qf
  * @Description:
  */
 import { AxiosRequestConfig, AxiosPromise, AxiosResponse } from '../types/index'
 import { parseHeaders } from '../helpers/headers'
 import { createError } from '../helpers/error'
+import { isURLSameOrigin } from '../helpers/url'
+import cookie from '../helpers/cookie'
 
 export default function xhr(config: AxiosRequestConfig): AxiosPromise {
   return new Promise((resolve, reject) => {
@@ -19,7 +21,9 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
       responseType,
       timeout,
       cancelToken,
-      withCredentials
+      withCredentials,
+      xsrfCookieName,
+      xsrfHeaderName
     } = config
 
     // 实例化了一个 XMLHttpRequest 对象
@@ -92,8 +96,11 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
     }
 
     // 携带请求域下的 cookie
-    if (withCredentials) {
-      request.withCredentials = true
+    if ((withCredentials || isURLSameOrigin(url!)) && xsrfCookieName) {
+      const xsrfValue = cookie.read(xsrfCookieName)
+      if (xsrfValue) {
+        headers[xsrfHeaderName!] = xsrfValue
+      }
     }
 
     // 调用 send 方法发送请求

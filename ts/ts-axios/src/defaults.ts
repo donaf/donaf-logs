@@ -1,7 +1,7 @@
 /*
  * @Author: qf
  * @Date: 2022-07-04 15:39:36
- * @LastEditTime: 2022-07-05 10:58:44
+ * @LastEditTime: 2022-07-05 11:15:24
  * @LastEditors: qf
  * @Description:
  */
@@ -13,6 +13,10 @@ const defaults: AxiosRequestConfig = {
   method: 'get',
 
   timeout: 0,
+
+  xsrfCookieName: 'XSRF-TOKEN',
+
+  xsrfHeaderName: 'X-XSRF-TOKEN',
 
   headers: {
     common: {

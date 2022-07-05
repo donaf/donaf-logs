@@ -1,7 +1,7 @@
 /*
  * @Author: qf
  * @Date: 2022-06-13 17:20:48
- * @LastEditTime: 2022-07-05 11:05:07
+ * @LastEditTime: 2022-07-05 11:13:43
  * @LastEditors: qf
  * @Description:
  */
@@ -49,6 +49,8 @@ export interface AxiosRequestConfig {
   transformResponse?: AxiosTransformer | AxiosTransformer[]
   cancelToken?: CancelToken
   withCredentials?: boolean // 是否携带请求域下的 cookie
+  xsrfCookieName?: string // 存储 token 的 cookie 名称
+  xsrfHeaderName?: string // 请求headers中的token对应的header名称
   [propName: string]: any
 }
 
