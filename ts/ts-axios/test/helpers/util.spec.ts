@@ -7,6 +7,11 @@ import {
   deepMerge
 } from '../../src/helpers/util'
 
+/**
+ * describe方法用来定义一组测试，支持嵌套
+ * test函数用来定义单个测试用例，它是测试最小单元
+ * expect是断言函数，若实际执行结果与预期结果不一致，抛出错误
+ */
 describe('helpers:util', () => {
   describe('isXX', () => {
     test('should validate Date', () => {
