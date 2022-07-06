@@ -1,7 +1,7 @@
 /*
  * @Author: qf
  * @Date: 2022-06-13 17:35:53
- * @LastEditTime: 2022-07-06 16:33:19
+ * @LastEditTime: 2022-07-06 16:40:09
  * @LastEditors: qf
  * @Description:处理 url 相关的工具函数都放在该文件中
  */
@@ -109,4 +109,12 @@ function resolveURL(url: string): URLOrigin {
 
 export function isURLSearchParams(val: any): val is URLSearchParams {
   return typeof val !== 'undefined' && val instanceof URLSearchParams
+}
+
+export function isAbsoluteURL(url: string): boolean {
+  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url)
+}
+
+export function combineURL(baseURL: string, relativeURL?: string): string {
+  return relativeURL ? baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '') : baseURL
 }
