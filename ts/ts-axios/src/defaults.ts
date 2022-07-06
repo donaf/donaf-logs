@@ -1,7 +1,7 @@
 /*
  * @Author: qf
  * @Date: 2022-07-04 15:39:36
- * @LastEditTime: 2022-07-05 15:52:08
+ * @LastEditTime: 2022-07-06 16:18:16
  * @LastEditors: qf
  * @Description:
  */
@@ -35,7 +35,10 @@ const defaults: AxiosRequestConfig = {
     function(data: any): any {
       return transformResponse(data)
     }
-  ]
+  ],
+  validateStatus(status: number): boolean {
+    return status >= 200 && status < 300
+  }
 }
 
 const methodsNoData = ['delete', 'get', 'head', 'options']
