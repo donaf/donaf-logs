@@ -1,7 +1,7 @@
 /*
  * @Author: qf
  * @Date: 2022-07-03 22:14:20
- * @LastEditTime: 2022-07-06 16:50:44
+ * @LastEditTime: 2022-07-06 17:21:44
  * @LastEditors: qf
  * @Description:
  */
@@ -38,7 +38,7 @@ function createInstance(config: AxiosRequestConfig): AxiosStatic {
 
 const axios = createInstance(defaults)
 
-axios.create = function create(config) {
+axios.create = function create(config: AxiosRequestConfig) {
   return createInstance(mergeConfig(defaults, config))
 }
 

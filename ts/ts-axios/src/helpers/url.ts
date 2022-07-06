@@ -1,12 +1,11 @@
 /*
  * @Author: qf
  * @Date: 2022-06-13 17:35:53
- * @LastEditTime: 2022-07-06 16:40:09
+ * @LastEditTime: 2022-07-06 17:05:10
  * @LastEditors: qf
  * @Description:处理 url 相关的工具函数都放在该文件中
  */
-import { request } from 'http'
-import { isDate, isPlainObject } from './util'
+import { isDate, isPlainObject, isURLSearchParams } from './util'
 interface URLOrigin {
   protocol: string
   host: string
@@ -105,10 +104,6 @@ function resolveURL(url: string): URLOrigin {
     protocol,
     host
   }
-}
-
-export function isURLSearchParams(val: any): val is URLSearchParams {
-  return typeof val !== 'undefined' && val instanceof URLSearchParams
 }
 
 export function isAbsoluteURL(url: string): boolean {

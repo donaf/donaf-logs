@@ -1,7 +1,7 @@
 /*
  * @Author: qf
  * @Date: 2022-06-13 17:36:15
- * @LastEditTime: 2022-07-05 16:08:47
+ * @LastEditTime: 2022-07-06 17:05:46
  * @LastEditors: qf
  * @Description:
  */
@@ -69,4 +69,8 @@ export function deepMerge(...objs: any[]): any {
  */
 export function isFormData(val: any): boolean {
   return typeof val !== 'undefined' && val instanceof FormData
+}
+
+export function isURLSearchParams(val: any): val is URLSearchParams {
+  return typeof val !== 'undefined' && val instanceof URLSearchParams
 }
