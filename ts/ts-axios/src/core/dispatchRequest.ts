@@ -1,7 +1,7 @@
 /*
  * @Author: qf
  * @Date: 2022-07-03 22:26:05
- * @LastEditTime: 2022-07-06 16:42:22
+ * @LastEditTime: 2022-07-06 16:55:03
  * @LastEditors: qf
  * @Description:
  */
@@ -25,7 +25,7 @@ function processConfig(config: AxiosRequestConfig): void {
   config.headers = flattenHeaders(config.headers, config.method!)
 }
 
-function transformURL(config: AxiosRequestConfig): string {
+export function transformURL(config: AxiosRequestConfig): string {
   let { url, params, paramsSerializer, baseURL } = config
   if (baseURL && !isAbsoluteURL(url!)) {
     url = combineURL(baseURL, url)

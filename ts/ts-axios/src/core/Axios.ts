@@ -1,7 +1,7 @@
 /*
  * @Author: qf
  * @Date: 2022-07-03 22:24:59
- * @LastEditTime: 2022-07-05 17:03:42
+ * @LastEditTime: 2022-07-06 16:54:36
  * @LastEditors: qf
  * @Description:
  */
@@ -13,9 +13,10 @@ import {
   ResolvedFn,
   RejectedFn
 } from '../types/index'
-import dispatchRequest from './dispatchRequest'
+import dispatchRequest, { transformURL } from './dispatchRequest'
 import InterceptorManager from './InterceptorManager'
 import mergeConfig from './mergeConfig'
+
 interface Interceptors {
   // 请求拦截器管理类实例
   request: InterceptorManager<AxiosRequestConfig>
@@ -116,6 +117,11 @@ export default class Axios {
   }
   patch(url: string, data?: any, config?: AxiosRequestConfig): AxiosPromise {
     return this._requestMethodWithData('patch', url, data, config)
+  }
+
+  getUri(config?: AxiosRequestConfig): string {
+    config = mergeConfig(this.defaults, config)
+    return transformURL(config)
   }
 
   _requestMethodWithoutData(
