@@ -1,7 +1,7 @@
 /*
  * @Author: qf
  * @Date: 2022-06-13 17:20:48
- * @LastEditTime: 2022-07-06 16:17:34
+ * @LastEditTime: 2022-07-06 16:26:16
  * @LastEditors: qf
  * @Description:
  */
@@ -55,6 +55,7 @@ export interface AxiosRequestConfig {
   onUploadProgress?: (e: ProgressEvent) => void // 上传进度
   auth?: AxiosBasicCredentials // 自动往 HTTP 的 请求 header 中添加 Authorization 属性，值为 Basic 加密串
   validateStatus?: (status: number) => boolean // 自定义合法状态码
+  paramsSerializer?: (params: any) => string // 自定义参数序列化
 
   [propName: string]: any
 }
