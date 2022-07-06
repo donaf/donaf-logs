@@ -1,29 +1,33 @@
 import axios, { AxiosError } from '../../src/index'
-// import qs from 'qs'
+import qs from 'qs'
 import 'nprogress/nprogress.css'
 
-// import NProgress from 'nprogress'
+import NProgress from 'nprogress'
 
-document.cookie = 'a=b'
+// document.cookie = 'a=b'
 
-axios.get('/more/get').then(res => {
-  console.log(res)
-})
+// axios.get('/more/get').then(res => {
+//   console.log(res)
+// })
 
-axios.post('http://127.0.0.1:8088/more/server2', {}, {
-  withCredentials: true
-}).then(res => {
-  console.log(res)
-})
+// axios.post('http://127.0.0.1:8088/more/server2', {}, {
+//   withCredentials: true
+// }).then(res => {
+//   console.log(res)
+// })
 
-const instance = axios.create({
-  xsrfCookieName: 'XSRF-TOKEN-D',
-  xsrfHeaderName: 'X-XSRF-TOKEN-D'
-})
-instance.get('/more/get').then(res => {
-  console.log(res)
-})
-// // const instance = axios.create()
+// const instance = axios.create({
+//   xsrfCookieName: 'XSRF-TOKEN-D',
+//   xsrfHeaderName: 'X-XSRF-TOKEN-D'
+// })
+// instance.get('/more/get').then(res => {
+//   console.log(res)
+// })
+
+/**
+ * 上传下载
+ */
+// const instance = axios.create()
 
 // function calculatePercentage(loaded: number, total: number) {
 //   return Math.floor(loaded * 1.0) / total
@@ -66,7 +70,8 @@ instance.get('/more/get').then(res => {
 // const downloadEl = document.getElementById('download')
 
 // downloadEl!.addEventListener('click', e => {
-//   instance.get('https://img.mukewang.com/5cc01a7b0001a33718720632.jpg')
+//   // instance.get('https://img.mukewang.com/5cc01a7b0001a33718720632.jpg')
+//   instance.get('https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg2.niutuku.com%2Fdesk%2F1207%2F0839%2Fntk32820.jpg&refer=http%3A%2F%2Fimg2.niutuku.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1659686797&t=42dd95ec45be54f863da4d5fbf6a48bd')
 // })
 
 // const uploadEl = document.getElementById('upload')
@@ -81,16 +86,19 @@ instance.get('/more/get').then(res => {
 //   }
 // })
 
-// axios.post('/more/post', {
-//   a: 1
-// }, {
-//   auth: {
-//     username: 'Yee',
-//     password: '123456'
-//   }
-// }).then(res => {
-//   console.log(res)
-// })
+/**
+ * http授权
+ */
+axios.post('/more/post', {
+  a: 1
+}, {
+  auth: {
+    username: 'Yee',
+    password: '123456'
+  }
+}).then(res => {
+  console.log(res)
+})
 
 
 // axios.get('/more/304').then(res => {
