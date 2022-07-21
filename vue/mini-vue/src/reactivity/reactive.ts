@@ -1,4 +1,3 @@
-// import { track, trigger } from './effect'
 import { mutableHandlers, readonlyHandlers } from './baseHandlers';
 
 
@@ -7,8 +6,7 @@ export function reactive(raw) {
 }
 
 export function readonly(raw) {
-  return createActiveObject(raw, createActiveObject)
-
+  return createActiveObject(raw, readonlyHandlers)
 }
 
 function createActiveObject(raw: any, baseHandlers: any) {
